@@ -9,7 +9,7 @@ const DbUserDetails = ({startDate, endDate}) => {
     const params = useParams();
 
     const api = axios.create({
-        baseURL: "http://localhost:3003",
+        baseURL: "https://tcc-backend-bd.herokuapp.com",
     });
 
     const [ userStatistics, setUserStatistics ] = useState([]); 
