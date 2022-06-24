@@ -13,7 +13,7 @@ function Router() {
        <BrowserRouter>
 
             <Routes>
-                <Route path='/' element={<HomePage/>} />
+                <Route path='/' element={<DbListPage/>} />
                 <Route path='/statistics' element={<DbListPage/>} />
                 <Route path='/histograms' element={<HistogramaDbListPage/>} />
                 <Route path='/boxplots' element={<BoxplotPage/>} />
