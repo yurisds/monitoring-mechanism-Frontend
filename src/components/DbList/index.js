@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import axios from 'axios';
-import { Table } from 'antd';
+import { Table, Spin  } from 'antd';
+import dayjs from 'dayjs';
+import { Button, DatePicker, Form } from 'antd';
+import "./style.css"
 
 const DbList = props => {
 
@@ -9,6 +12,11 @@ const DbList = props => {
 
     const minMetric = 20;
     const maxMetric = 100;
+
+    const [form] = Form.useForm();
+
+    const [ startDate, setStartDate ] = useState(null);
+    const [ endDate, setEndDate ] = useState(null);
 
     const columns = [
         {
@@ -124,24 +132,84 @@ const DbList = props => {
     
 
     const [ list, setList ] = useState([]);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     useEffect( () => {
-        getDbList();
+        setIsLoading(true);
+        getDbList({});
+       
     }, [])
 
 
-    const getDbList = async () => {
+    const getDbList = async (values) => {
 
+        setIsLoading(true);
 
-        const response = await api.get("/statistics");
+        let response;
+
+        if(!values.date) {
+            setStartDate(null);
+            setEndDate(null);
+            response = await api.get(`/statistics`);
+
+        } else{
+
+            setStartDate(dayjs(values.date[0]).format("YYYY-MM-DDT00:00:00"));
+            setEndDate(dayjs(values.date[1]).format("YYYY-MM-DDT23:59:59"));
+
+            const startDate = dayjs(values.date[0]).format("YYYY-MM-DDT00:00:00");
+            const endDate = dayjs(values.date[1]).format("YYYY-MM-DDT23:59:59")
+
+            if(startDate && endDate){
+                response = await api.get(`/statistics?initialDate=${startDate}&finalDate=${endDate}`);
+            }else {
+                response = await api.get(`/statistics`);
+            }
+
+        }  
 
         setList(response.data);
-
+        setIsLoading(false);
     }
 
     return (
         <div>
-            <Table pagination={false} dataSource={list} columns={columns}  onClick={() => {console.log("teste")}} />
+
+            <div>
+                <Form form={form} layout="vertical" name="form">
+                    <Form.Item key={"date"} name={"date"}>
+                        <DatePicker.RangePicker
+                        format={"DD/MM/YYYY"}
+                            style={{
+                                width: '40%',
+                            }}
+                            allowClear={true}
+                            onChange={() => {
+                                form
+                                .validateFields()
+                                .then((values) => {
+                                    getDbList(values);
+                                })
+                                .catch((info) => {
+                                    console.log('Validate Failed:', info);
+                                });
+
+                            }}
+                        />
+                    </Form.Item>
+                </Form>
+            </div>
+
+            {isLoading ? (
+                <div className="example">
+                    <Spin />
+                </div>
+            ) : 
+            (
+            <Table pagination={false} dataSource={list} columns={columns} />)
+            
+        }
+            
             
         </div>
     );

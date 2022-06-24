@@ -1,0 +1,25 @@
+.wrapper {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 0.5fr 7fr 3fr 0.5fr;
+    grid-template-rows: 50rem 85%;
+
+}
+
+.teste{
+    background-color: aqua;
+    border: 2px solid black;
+    display: flex;
+
+}
+
+.table{
+    border: 2px solid black;
+    overflow: scroll;
+}
+
+h2{
+    text-align: center;
+    color: blue;
+    margin-bottom: 8px;
+}
