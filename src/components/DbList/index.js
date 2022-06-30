@@ -119,6 +119,19 @@ const DbList = props => {
             },
         },
         {
+            title: 'Atenção',
+            dataIndex: 'percentual_create_alter',
+            key: 'percentual_create_alter',
+            render: (qtt) => {
+
+                if (qtt > 0.80)  {
+                    return <div style={{color:'green', fontWeight:"bold" }}> OK </div>
+                }else {
+                    return <div style={{color:'red', fontWeight:"bold"}}> Risco </div>
+                }
+            },
+        },
+        {
             title: 'Action',
             dataIndex: '',
             key: 'x',

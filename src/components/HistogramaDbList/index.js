@@ -71,7 +71,7 @@ const HistogramaDbList = props => {
                 {type: 'bar', x: dbNameList, y: dbDeleteList, name: "DELETE"},
 
                 ]}
-                layout={ {width: 1900, height: 800, title: 'Comandos'} }
+                layout={ {width: window.innerWidth * 0.90, height: window.innerHeight * 0.90, title: 'Comandos'} }
             />
             
         </div>
