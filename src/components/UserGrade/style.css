@@ -1,0 +1,12 @@
+.userGradeBody{
+    display: flex;
+    flex-direction: row;
+    border: none;
+}
+
+.userGradeSentence{
+    text-align: center;
+    width: 100%;
+    border: 1px solid;
+    font-size: medium;
+}

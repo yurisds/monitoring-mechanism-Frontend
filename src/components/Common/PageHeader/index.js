@@ -1,27 +1,32 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
+import { Layout, Menu } from 'antd';
+const { Header } = Layout;
 
 const PageHeader = props => {
 
     return (
-        <AppBar position="static">
-        <Container maxWidth="xl">
-    
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                <Button
+        <Layout>
+            <Header
+            style={{
+                zIndex: 1,
+                width: '100%',
+                display: 'flex',
+                flexDirection: "column",
+                alignItems: 'center',
+                alignContent: 'center'
 
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                    {props.name}
-                </Button>
+              }}
+            >
+                <Menu
+                theme="dark"
+                mode="horizontal"
+                >  
+                {props.name.toUpperCase()}
+                </Menu> 
+            </Header>
 
-            </Box>
+        </Layout>
 
-        </Container>
-        </AppBar>
     );
 };
 

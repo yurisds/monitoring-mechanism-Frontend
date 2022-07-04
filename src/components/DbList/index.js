@@ -140,6 +140,7 @@ const DbList = props => {
     ];
 
     const api = axios.create({
+        //baseURL: "https://tcc-backend-bd.herokuapp.com",
         baseURL: "https://tcc-backend-bd.herokuapp.com",
       });
     

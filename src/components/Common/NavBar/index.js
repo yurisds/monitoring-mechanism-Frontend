@@ -23,7 +23,6 @@ const navigate = useNavigate();
         width: '100%',
       }}
     >
-      <div className="logo" />
       <Menu
         theme="dark"
         mode="horizontal"

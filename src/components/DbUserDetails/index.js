@@ -1,47 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import "./style.css"
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import Plot from 'react-plotly.js';
+import { Card } from 'antd';
 
-const DbUserDetails = ({startDate, endDate}) => {
-
-    const params = useParams();
-
-    const api = axios.create({
-        baseURL: "https://tcc-backend-bd.herokuapp.com",
-    });
-
-    const [ userStatistics, setUserStatistics ] = useState([]); 
-
-    useEffect( () => {
-        getUserStatistics();
-    }, [])
-
-
-    const getUserStatistics = async () => {
-        
-        let response;
-
-        if(startDate && endDate) {
-            response = await api.get(`/statistics/${params.userdb}?initialDate=${startDate}&finalDate=${endDate}`);
-        }else{
-            response = await api.get(`/statistics/${params.userdb}`);
-        }     
-
-        setUserStatistics(response.data);
-    }
-
+const DbUserDetails = ({userStatistics}) => {
 
     return (
         <div className="body">
-           <p>Sessões de Estudos: {userStatistics.studySessions}</p>
-           <p>Quantidade de Criação de Tabelas: {userStatistics.create_table}</p>
-           <p>Quantidade de Remoção de Tabelas: {userStatistics.drop_table}</p>
-           <p>Quantidade de Atualização de Tabelas: {userStatistics.alter_table}</p>
-           <p>Quantidade de Inserção de Dados: {userStatistics.insert}</p>
-           <p>Quantidade de Remoção de Dados: {userStatistics.delete}</p>
-           <p>Quantidade de Atualização de Dados: {userStatistics.update}</p>
+
+            <Card style={{ width: window.innerWidth * 0.24 }}>
+            <p>Quantidade de Criação de Tabelas: {userStatistics.create_table}</p>
+            <p>Quantidade de Remoção de Tabelas: {userStatistics.drop_table}</p>
+            <p>Quantidade de Atualização de Tabelas: {userStatistics.alter_table}</p>
+            <p>Quantidade de Inserção de Dados: {userStatistics.insert}</p>
+            <p>Quantidade de Remoção de Dados: {userStatistics.delete}</p>
+            <p>Quantidade de Atualização de Dados: {userStatistics.update}</p>
+            </Card>
+
+
             
            <Plot
                 data={[
@@ -56,9 +32,8 @@ const DbUserDetails = ({startDate, endDate}) => {
                 {type: 'bar', x:[8],  y: [userStatistics.boolean_type], name: "BOOLEAN"},
                 {type: 'bar', x:[9],  y: [userStatistics.bigint_type], name: "BIGINT"},
 
-
                 ]}
-                layout={ {width: 480, height: 400, title: 'Tipos de dados'} }
+                layout={ {width: window.innerWidth * 0.24, height: window.innerHeight * 0.375, title: 'Tipos de dados'} }
             />
 
         </div>

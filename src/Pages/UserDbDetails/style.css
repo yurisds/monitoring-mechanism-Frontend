@@ -1,25 +1,38 @@
+.body-user-db-details{
+    max-height: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: block;
+}
+
 .wrapper {
-    margin-top: 10px;
     display: grid;
     grid-template-columns: 0.5fr 7fr 3fr 0.5fr;
-    grid-template-rows: 50rem 85%;
-
+    grid-template-rows: 45rem;
 }
 
 .teste{
-    background-color: aqua;
+    background-color:gray;
     border: 2px solid black;
-    display: flex;
+    display: block;
+    max-width: 500px;
 
 }
 
 .table{
     border: 2px solid black;
-    overflow: scroll;
+    overflow: hidden;
+    max-height: 100%;
 }
 
 h2{
     text-align: center;
     color: blue;
     margin-bottom: 8px;
+}
+
+.carousel-button {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
