@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 import { Table, Spin  } from 'antd';
 import dayjs from 'dayjs';
-import { Button, DatePicker, Form } from 'antd';
+import { Button, DatePicker, Form, Input, Space } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import Highlighter from 'react-highlight-words';
+
 import "./style.css"
 
 const DbList = props => {
@@ -18,11 +21,102 @@ const DbList = props => {
     const [ startDate, setStartDate ] = useState(null);
     const [ endDate, setEndDate ] = useState(null);
 
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+      };
+    
+      const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+      };
+
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+          <div
+            style={{
+              padding: 8,
+            }}
+          >
+            <Input
+              ref={searchInput}
+              placeholder={`Search ${dataIndex}`}
+              value={selectedKeys[0]}
+              onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+              onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+              style={{
+                marginBottom: 8,
+                display: 'block',
+              }}
+            />
+            <Space>
+              <Button
+                type="primary"
+                onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                icon={<SearchOutlined />}
+                size="small"
+                style={{
+                  width: 90,
+                }}
+              >
+                Search
+              </Button>
+              <Button
+                onClick={() => clearFilters && handleReset(clearFilters)}
+                size="small"
+                style={{
+                  width: 90,
+                }}
+              >
+                Reset
+              </Button>
+            </Space>
+          </div>
+        ),
+        filterIcon: (filtered) => (
+          <SearchOutlined
+            style={{
+              color: filtered ? '#1890ff' : undefined,
+            }}
+          />
+        ),
+        onFilter: (value, record) => {
+            if(record[dataIndex]) {
+                return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+            }
+        },
+        onFilterDropdownVisibleChange: (visible) => {
+          if (visible) {
+            setTimeout(() => searchInput.current?.select(), 100);
+          }
+        },
+        render: (text) =>
+          searchedColumn === dataIndex ? (
+            <Highlighter
+              highlightStyle={{
+                backgroundColor: '#ffc069',
+                padding: 0,
+              }}
+              searchWords={[searchText]}
+              autoEscape
+              textToHighlight={text ? text.toString() : ''}
+            />
+          ) : (
+            text
+          ),
+      });
+
     const columns = [
         {
           title: 'Nome',
           dataIndex: 'db_name',
           key: 'db_name',
+          ...getColumnSearchProps('db_name'),
         },
         {
             title: 'Create',
@@ -190,13 +284,10 @@ const DbList = props => {
         <div>
 
             <div>
-                <Form form={form} layout="vertical" name="form">
+                <Form form={form} layout="vertical" name="form" style={{ alignItems: "center", display: "flex", flexDirection: "column", width: "100%", marginTop: "1.5%"}}>
                     <Form.Item key={"date"} name={"date"}>
                         <DatePicker.RangePicker
                         format={"DD/MM/YYYY"}
-                            style={{
-                                width: '40%',
-                            }}
                             allowClear={true}
                             onChange={() => {
                                 form
@@ -223,7 +314,6 @@ const DbList = props => {
             <Table pagination={false} dataSource={list} columns={columns} />)
             
         }
-            
             
         </div>
     );

@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Plot from 'react-plotly.js';
 
-const HistogramaDbList = props => {
-
-
-    const api = axios.create({
-        baseURL: "https://tcc-backend-bd.herokuapp.com",
-    });
-    
+const HistogramaDbList = ({list}) => {
 
     const [ dbNameList, setDbNameList ] = useState([]);
     const [ dbCreateList, setDbCreateList ] = useState([]);
@@ -25,8 +18,6 @@ const HistogramaDbList = props => {
 
     const getDbList = async () => {
 
-        const response = await api.get("/statistics");
-
         let dbNames = [];
         let dbCreate = [];
         let dbDrop = [];
@@ -35,7 +26,7 @@ const HistogramaDbList = props => {
         let dbUpdate = [];
         let dbDelete = [];
 
-        response.data.map( (db) => {
+        list.map( (db) => {
 
             dbNames.push(db.db_name);
             dbCreate.push(db.create_table);
@@ -71,7 +62,7 @@ const HistogramaDbList = props => {
                 {type: 'bar', x: dbNameList, y: dbDeleteList, name: "DELETE"},
 
                 ]}
-                layout={ {width: window.innerWidth * 0.90, height: window.innerHeight * 0.90, title: 'Comandos'} }
+                layout={ {width: window.innerWidth * 0.90, height: window.innerHeight * 0.87, title: 'Comandos DDL e DML'} }
             />
             
         </div>

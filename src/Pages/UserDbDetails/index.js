@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { useNavigate, useParams  } from 'react-router-dom';
+import { useParams  } from 'react-router-dom';
 import PageHeader from '../../components/Common/PageHeader';
 import "./style.css"
 import axios from 'axios';
 
-import { Button, Spin, DatePicker, Form, Radio, Select   } from 'antd';
+import { Spin, DatePicker, Form, Radio } from 'antd';
 
 import DbUserDetails from '../../components/DbUserDetails';
 import UserGrade from '../../components/UserGrade';
 import DbUserCommand from '../../components/DbUserCommand';
 import DbUserWorkHours from '../../components/DbUserWorkHours';
 import DbUserConstraint from '../../components/DbUserConstraint';
+
 const UserDbDetailsPage = props => {
 
-    const navigate = useNavigate();
     const params = useParams();
 
     const [form] = Form.useForm();
@@ -23,12 +23,15 @@ const UserDbDetailsPage = props => {
         baseURL: "https://tcc-backend-bd.herokuapp.com",
     });
 
+    const buttons = {0: "data_type", 1: "worked_hour", 2: "constraint"};
+
     const [ list, setList ] = useState([]);
     const [ startDate, setStartDate ] = useState(null);
     const [ endDate, setEndDate ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
-    const [ userStatistics, setUserStatistics ] = useState([]); 
+    const [ userStatistics, setUserStatistics ] = useState([]);
     const [count, setCount] = useState(1);
+    const [isClickedVision, setIsClickedVision] = useState(false);
 
     useEffect( () => {
         setIsLoading(true);
@@ -101,38 +104,25 @@ const UserDbDetailsPage = props => {
       setUserStatistics(response.data);
   }
 
-  const [size, setSize] = useState('data_type');
+  const [vision, setVision] = useState('data_type');
 
-  const handleSizeChange = (e) => {
-    setSize(e.target.value);
-  };
+  const handleIsClickedVision = (e) => {
 
-  const changeButton = () => {
-
-    const buttons = ["data_type", "worked_hour", "constraint"];
-
-    setSize(buttons[count]);
-
-    if (count == 2) {
-      setCount(0);
-    }else{
-      setCount(count + 1);
-    }
-
+    const aux = Object.keys(buttons).find(key => buttons[key] === e.target.value);
+    console.log(aux, e.target.value)
+    setVision(buttons[aux])
   }
 
-  setTimeout(function() { changeButton() }, 15000);
 
   return (
         <div className='body-user-db-details'>
             <PageHeader name={`${params.userdb}`}/>
             <UserGrade name={`${params.userdb}`}></UserGrade>
-            <Button onClick={() => navigate('/statistics')} type="primary" htmlType="submit"> Voltar </Button>
 
             <div>
 
               <div>
-                <Form form={form} layout="vertical" name="form" style={{ alignItems: "center", display: "flex", flexDirection: "column", width: "100%"}}>
+                <Form form={form} layout="vertical" name="form" style={{ alignItems: "center", display: "flex", flexDirection: "column", width: "100%", marginTop: "1.5%"}}>
                   <Form.Item key={"date"} name={"date"}>
                       <DatePicker.RangePicker 
                       format={"DD/MM/YYYY"}
@@ -178,18 +168,18 @@ const UserDbDetailsPage = props => {
 
                     <div className='carousel-button'> 
 
-                        <Radio.Group value={size} onChange={handleSizeChange}>
-                            <Radio.Button value="data_type">1</Radio.Button>
-                            <Radio.Button value="worked_hour">2</Radio.Button>
-                            <Radio.Button value="constraint">3</Radio.Button>
+                        <Radio.Group value={vision} style={{display: 'flex', flexDirection: 'row'}}>
+                            <Radio.Button value="data_type" onClick={handleIsClickedVision} style={{marginRight: "5px", marginLeft: "5px"}}>1</Radio.Button>
+                            <Radio.Button value="worked_hour" onClick={handleIsClickedVision} style={{marginLeft: "5px", marginRight: "5px"}}>2</Radio.Button>
+                            <Radio.Button value="constraint" onClick={handleIsClickedVision} style={{marginLeft: "5px", marginRight: "5px"}}>3</Radio.Button>
                         </Radio.Group>
                         
                     </div>
 
-                    {size === "data_type" ? (
+                    {vision === "data_type" ? (
                       <DbUserDetails key={`${startDate}-${endDate}`} userStatistics={userStatistics}/>
                     ): (
-                      size === "worked_hour" ? (
+                      vision === "worked_hour" ? (
                         <DbUserWorkHours key={`${startDate}-${endDate}`} userStatistics={userStatistics}/>
                       ): (
                         <DbUserConstraint key={`${startDate}-${endDate}`} userStatistics={userStatistics}/>
