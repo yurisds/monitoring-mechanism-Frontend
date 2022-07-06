@@ -12,7 +12,7 @@ import HistogramaDbHoursWorkedPM from '../../components/HistogramaDbHoursWorkedP
 const HistogramaDbListPage = () => {
 
     const api = axios.create({
-        baseURL: "http://localhost:3003",
+        baseURL: "https://tcc-backend-bd.herokuapp.com",
     });
 
     const [button, setButton ] = useState("commands");
