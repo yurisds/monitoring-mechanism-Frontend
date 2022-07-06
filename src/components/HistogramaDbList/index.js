@@ -64,6 +64,7 @@ const HistogramaDbList = ({list}) => {
                 ]}
                 layout={ {width: window.innerWidth * 0.90, height: window.innerHeight * 0.87, title: 'Comandos DDL e DML'} }
             />
+
             
         </div>
     );

@@ -5,8 +5,8 @@ import { Layout, Menu } from 'antd';
 
 const { Header } = Layout;
 
-const pages = ['statistics', 'histograms', 'boxplots'];
-const pagesPortuguese = {'statistics': 'Estatísticas', 'histograms': 'Histogramas', 'boxplots': 'Boxplots'};
+const pages = ['statistics', 'histograms', 'boxplots', 'correlations'];
+const pagesPortuguese = {'statistics': 'Estatísticas', 'histograms': 'Histogramas', 'boxplots': 'Boxplots', 'correlations': "Correlações"};
 
 const ResponsiveAppBar = () => {
 

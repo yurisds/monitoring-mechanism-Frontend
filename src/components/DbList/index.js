@@ -235,7 +235,7 @@ const DbList = props => {
 
     const api = axios.create({
         //baseURL: "https://tcc-backend-bd.herokuapp.com",
-        baseURL: "https://tcc-backend-bd.herokuapp.com",
+        baseURL: "http://localhost:3003",
       });
     
 
@@ -280,6 +280,7 @@ const DbList = props => {
         setIsLoading(false);
     }
 
+
     return (
         <div>
 
@@ -304,16 +305,25 @@ const DbList = props => {
                     </Form.Item>
                 </Form>
             </div>
-
-            {isLoading ? (
-                <div className="example">
-                    <Spin />
-                </div>
-            ) : 
-            (
-            <Table pagination={false} dataSource={list} columns={columns} />)
-            
-        }
+            <div className='table-db-List'>
+                {isLoading ? (
+                    <div className="example">
+                        <Spin />
+                    </div>
+                    ) : 
+                    (
+                        <Table 
+                            scroll={{
+                                y: "46.5rem",
+                            }}
+                            summary={() => (<Table.Summary fixed={'top'}>
+                            
+                                            </Table.Summary>)}
+                            pagination={false} dataSource={list} columns={columns} />
+                    )
+                
+                }
+            </div>
             
         </div>
     );

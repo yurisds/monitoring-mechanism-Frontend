@@ -4,6 +4,7 @@ import DbListPage from "../Pages/DbList";
 import HistogramaDbListPage from "../Pages/HistogramaDbList";
 import BoxplotPage from "../Pages/Boxplot";
 import UserDbDetailsPage from "../Pages/UserDbDetails";
+import Correlation from "../Pages/Correlation";
 
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
                 <Route path='/' element={<DbListPage/>} />
                 <Route path='/statistics' element={<DbListPage/>} />
                 <Route path='/histograms' element={<HistogramaDbListPage/>} />
+                <Route path='/correlations' element={<Correlation/>} />
                 <Route path='/boxplots' element={<BoxplotPage/>} />
                 <Route path='/statistics/:userdb' element={<UserDbDetailsPage/>} />
 

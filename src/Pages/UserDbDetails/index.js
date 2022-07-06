@@ -20,7 +20,7 @@ const UserDbDetailsPage = props => {
     const [form] = Form.useForm();
 
     const api = axios.create({
-        baseURL: "https://tcc-backend-bd.herokuapp.com",
+        baseURL: "http://localhost:3003",
     });
 
     const buttons = {0: "data_type", 1: "worked_hour", 2: "constraint"};
@@ -109,7 +109,6 @@ const UserDbDetailsPage = props => {
   const handleIsClickedVision = (e) => {
 
     const aux = Object.keys(buttons).find(key => buttons[key] === e.target.value);
-    console.log(aux, e.target.value)
     setVision(buttons[aux])
   }
 

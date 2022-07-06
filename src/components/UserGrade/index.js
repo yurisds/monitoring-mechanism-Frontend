@@ -8,7 +8,7 @@ const UserGrade = ({name}) => {
     const params = useParams();
 
     const api = axios.create({
-        baseURL: "https://tcc-backend-bd.herokuapp.com",
+        baseURL: "http://localhost:3003",
     });
 
     const [ userGrade, setUserGrade ] = useState([]); 
