@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import axios from 'axios';
-import { Table, Spin  } from 'antd';
+import { Table, Spin,Tabs  } from 'antd';
 import dayjs from 'dayjs';
 import { Button, DatePicker, Form, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -10,11 +10,23 @@ import Highlighter from 'react-highlight-words';
 import "./style.css"
 
 const DbList = props => {
+    const { TabPane } = Tabs;
 
     const navigate = useNavigate(); 
 
     const minMetric = 20;
     const maxMetric = 100;
+
+    const api = axios.create({
+        //baseURL: "https://tcc-backend-bd.herokuapp.com",
+        baseURL: "https://tcc-backend-bd.herokuapp.com",
+      });
+    
+
+    const [ list, setList ] = useState([]);
+    const [ gradeList, setGradeList ] = useState([]);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ viewTable, setViewTable ] = useState(true);
 
     const [form] = Form.useForm();
 
@@ -233,19 +245,124 @@ const DbList = props => {
           },
     ];
 
-    const api = axios.create({
-        //baseURL: "https://tcc-backend-bd.herokuapp.com",
-        baseURL: "https://tcc-backend-bd.herokuapp.com",
-      });
-    
+    const columnsGrade = [
+        {
+          title: 'Nome',
+          dataIndex: 'db_name',
+          key: 'db_name',
+          ...getColumnSearchProps('db_name'),
+        },
+        {
+            title: 'Nª Quizzes',
+            dataIndex: 'quizzes',
+            key: 'quizzes',
+            render: (qtt) => {
+                if(parseFloat(qtt) < 4.00) {
+                    return <div style={{color:'red', fontWeight:"bold" }}> {qtt} </div>
+                }else if (parseFloat(qtt) > 7.00)  {
+                    return <div style={{color:'green', fontWeight:"bold" }}> {qtt} </div>
+                }else {
+                    return <div style={{color:'black', fontWeight:"bold"}}> {qtt} </div>
+                }
+            },
+        },
+        {
+            title: 'Nª Prova 1',
+            dataIndex: 'prova1',
+            key: 'prova1',
+            render: (qtt) => {
+                if(parseFloat(qtt) < 4.00) {
+                    return <div style={{color:'red', fontWeight:"bold" }}> {qtt} </div>
+                }else if (parseFloat(qtt) > 7.00)  {
+                    return <div style={{color:'green', fontWeight:"bold" }}> {qtt} </div>
+                }else {
+                    return <div style={{color:'black', fontWeight:"bold"}}> {qtt} </div>
+                }
+            },
+        },
+        {
+            title: 'Nª Prova 2',
+            dataIndex: 'prova2',
+            key: 'prova2',
+            render: (qtt) => {
+                if(parseFloat(qtt) < 4.00) {
+                    return <div style={{color:'red', fontWeight:"bold" }}> {qtt} </div>
+                }else if (parseFloat(qtt) > 7.00)  {
+                    return <div style={{color:'green', fontWeight:"bold" }}> {qtt} </div>
+                }else {
+                    return <div style={{color:'black', fontWeight:"bold"}}> {qtt} </div>
+                }
+            },
+        },
+        {
+            title: 'Média',
+            dataIndex: 'media',
+            key: 'media',
+            render: (qtt) => {
+                if(parseFloat(qtt) < 4.00) {
+                    return <div style={{color:'red', fontWeight:"bold" }}> {qtt} </div>
+                }else if (parseFloat(qtt) > 7.00)  {
+                    return <div style={{color:'green', fontWeight:"bold" }}> {qtt} </div>
+                }else {
+                    return <div style={{color:'black', fontWeight:"bold"}}> {qtt} </div>
+                }
+            },
+        },
+        {
+            title: 'Nª Prova Final',
+            dataIndex: 'provaFinal',
+            key: 'provaFinal',
+        },
+        {
+            title: 'Nª Final',
+            dataIndex: 'notaFinal',
+            key: 'notaFinal',
+            render: (qtt) => {
+                if(parseFloat(qtt) < 4.00) {
+                    return <div style={{color:'red', fontWeight:"bold" }}> {qtt} </div>
+                }else if (parseFloat(qtt) > 7.00)  {
+                    return <div style={{color:'green', fontWeight:"bold" }}> {qtt} </div>
+                }else {
+                    return <div style={{color:'black', fontWeight:"bold"}}> {qtt} </div>
+                }
+            },
+        },
+        {
+            title: 'Study Sessions',
+            dataIndex: 'studySessions',
+            key: 'studySessions',
+            render: (qtt) => {
 
-    const [ list, setList ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(true);
+                return <div style={{color:'black', fontWeight:"bold"}}> {qtt} </div>
+
+            },
+        },
+        {
+            title: 'Atenção',
+            dataIndex: 'percentual_create_alter',
+            key: 'percentual_create_alter',
+            render: (qtt) => {
+
+                if (qtt > 0.80)  {
+                    return <div style={{color:'green', fontWeight:"bold" }}> OK </div>
+                }else {
+                    return <div style={{color:'red', fontWeight:"bold"}}> Risco </div>
+                }
+            },
+        },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: (e) => <a onClick={ () => {navigate(`/statistics/${e.db_name}`)}}>Detalhes</a>,
+          },
+    ];
 
     useEffect( () => {
         setIsLoading(true);
-        getDbList({});
-       
+        getBdGradeList();
+        setIsLoading(false);
+
     }, [])
 
 
@@ -276,13 +393,39 @@ const DbList = props => {
 
         }  
 
-        setList(response.data);
+        const result = response.data.map((r) => {
+            return {
+                ...r,
+                ...gradeList[r.db_name]
+            }
+        })
+
+        setList(result);
         setIsLoading(false);
     }
 
+    const getBdGradeList = async () => {
+
+        const [responseGrade, responseBd] = await Promise.all([await api.get(`/grade`), await api.get(`/statistics`)]);
+
+        const result = responseBd.data.map((r) => {
+            return {
+                ...r,
+                ...responseGrade.data[r.db_name]
+            }
+        })
+
+        setList(result);
+        setGradeList(responseGrade.data);
+    }
+
+    const onChange = () => {
+        setViewTable(!viewTable);
+    };
 
     return (
         <div>
+
 
             <div>
                 <Form form={form} layout="vertical" name="form" style={{ alignItems: "center", display: "flex", flexDirection: "column", width: "100%", marginTop: "1.5%"}}>
@@ -305,21 +448,38 @@ const DbList = props => {
                     </Form.Item>
                 </Form>
             </div>
+            <Tabs onChange={onChange} type="card" style={{marginLeft: "5%", marginRight: "5%"}}>
+                <TabPane tab="Comandos" key="1">
+                </TabPane>
+                <TabPane tab="Notas" key="2">
+                </TabPane>
+            </Tabs>
             <div className='table-db-List'>
                 {isLoading ? (
                     <div className="example">
                         <Spin />
                     </div>
                     ) : 
-                    (
-                        <Table 
+                        (   viewTable ? (
+                            <Table 
                             scroll={{
-                                y: "46.5rem",
+                                y: "41.5rem",
                             }}
                             summary={() => (<Table.Summary fixed={'top'}>
                             
                                             </Table.Summary>)}
                             pagination={false} dataSource={list} columns={columns} />
+                        ) : (
+                                <Table 
+                                scroll={{
+                                    y: "41.5rem",
+                                }}
+                                summary={() => (<Table.Summary fixed={'top'}>
+                                
+                                                </Table.Summary>)}
+                                pagination={false} dataSource={list} columns={columnsGrade} />
+                            )
+
                     )
                 
                 }
