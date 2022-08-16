@@ -24,7 +24,7 @@ const HistogramaDbTypeTextUsed = ({list}) => {
 
         list.map( (db) => {
 
-            dbNames.push(db.db_name);
+            dbNames.push(`User ${db.db_name}`);
             dbVarchar.push(db.varchar_type);
             dbText.push(db.text_type);
             dbChar.push(db.char_type);

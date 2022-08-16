@@ -24,7 +24,7 @@ const HistogramaDbHoursWorkedPM = ({list}) => {
 
         list.map( (db) => {
 
-            dbNames.push(db.db_name);
+            dbNames.push(`User ${db.db_name}`);
             dbWorked_12h_15h.push(db.worked_12h_15h);
             dbWorked_15h_18h.push(db.worked_15h_18h);
             dbWorked_18h_21h.push(db.worked_18h_21h);

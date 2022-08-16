@@ -115,7 +115,7 @@ const UserDbDetailsPage = props => {
 
   return (
         <div className='body-user-db-details'>
-            <PageHeader name={`${params.userdb}`}/>
+            <PageHeader name={`User ${params.userdb}`}/>
             <UserGrade name={`${params.userdb}`}></UserGrade>
 
             <div>

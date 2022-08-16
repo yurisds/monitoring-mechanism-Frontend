@@ -126,9 +126,9 @@ const DbList = props => {
     const columns = [
         {
           title: 'Nome',
-          dataIndex: 'db_name',
-          key: 'db_name',
-          ...getColumnSearchProps('db_name'),
+          dataIndex: 'userDatabase',
+          key: 'userDatabase',
+          ...getColumnSearchProps('userDatabase'),
         },
         {
             title: 'Create',
@@ -224,7 +224,7 @@ const DbList = props => {
 
             },
         },
-        {
+       /* {
             title: 'Atenção',
             dataIndex: 'percentual_create_alter',
             key: 'percentual_create_alter',
@@ -236,7 +236,7 @@ const DbList = props => {
                     return <div style={{color:'red', fontWeight:"bold"}}> Risco </div>
                 }
             },
-        },
+        },*/
         {
             title: 'Action',
             dataIndex: '',
@@ -248,9 +248,9 @@ const DbList = props => {
     const columnsGrade = [
         {
           title: 'Nome',
-          dataIndex: 'db_name',
-          key: 'db_name',
-          ...getColumnSearchProps('db_name'),
+          dataIndex: 'userDatabase',
+          key: 'userDatabase',
+          ...getColumnSearchProps('userDatabase'),
         },
         {
             title: 'Nª Quizzes',
@@ -337,7 +337,7 @@ const DbList = props => {
 
             },
         },
-        {
+        /*{
             title: 'Atenção',
             dataIndex: 'percentual_create_alter',
             key: 'percentual_create_alter',
@@ -349,7 +349,7 @@ const DbList = props => {
                     return <div style={{color:'red', fontWeight:"bold"}}> Risco </div>
                 }
             },
-        },
+        },*/
         {
             title: 'Action',
             dataIndex: '',
@@ -396,7 +396,8 @@ const DbList = props => {
         const result = response.data.map((r) => {
             return {
                 ...r,
-                ...gradeList[r.db_name]
+                ...gradeList[r.db_name],
+                userDatabase: `User ${r.db_name}`
             }
         })
 
@@ -411,7 +412,8 @@ const DbList = props => {
         const result = responseBd.data.map((r) => {
             return {
                 ...r,
-                ...responseGrade.data[r.db_name]
+                ...responseGrade.data[r.db_name],
+                userDatabase: `User ${r.db_name}`
             }
         })
 

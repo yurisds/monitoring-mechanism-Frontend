@@ -40,7 +40,7 @@ const BoxplotPage = props => {
 
         response.data.map( (db) => {
 
-            dbNames.push(db.db_name);
+            dbNames.push(`User ${db.db_name}`);
             dbCreate.push(db.create_table);
             dbDrop.push(db.drop_table);
             dbAlter.push(db.alter_table);

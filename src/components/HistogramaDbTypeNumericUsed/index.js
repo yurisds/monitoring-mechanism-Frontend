@@ -26,7 +26,7 @@ const HistogramaDbTypeNumericUsed = ({list}) => {
 
         list.map( (db) => {
 
-            dbNames.push(db.db_name);
+            dbNames.push(`User ${db.db_name}`);
             dbInteger.push(db.integer_type);
             dbSmallint.push(db.smallint_type);
             dbBigint.push(db.bigint_type);
