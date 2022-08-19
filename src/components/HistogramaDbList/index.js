@@ -53,13 +53,12 @@ const HistogramaDbList = ({list}) => {
 
             <Plot
                 data={[
-
-                {type: 'bar', x: dbNameList, y: dbCreateList, name: "CREATE TABLE"},
-                {type: 'bar', x: dbNameList, y: dbDropList, name: "DROP TABLE"},
-                {type: 'bar', x: dbNameList, y: dbAlterList, name: "ALTER TABLE"},
-                {type: 'bar', x: dbNameList, y: dbInsertList, name: "INSERT"},
-                {type: 'bar', x: dbNameList, y: dbUpdateList, name: "UPDATE"},
-                {type: 'bar', x: dbNameList, y: dbDeleteList, name: "DELETE"},
+                    {type: 'bar', x: dbNameList, y: dbDropList, name: "DROP TABLE"},
+                    {type: 'bar', x: dbNameList, y: dbCreateList, name: "CREATE TABLE"},
+                    {type: 'bar', x: dbNameList, y: dbAlterList, name: "ALTER TABLE"},
+                    {type: 'bar', x: dbNameList, y: dbInsertList, name: "INSERT"},
+                    {type: 'bar', x: dbNameList, y: dbUpdateList, name: "UPDATE"},
+                    {type: 'bar', x: dbNameList, y: dbDeleteList, name: "DELETE"},
 
                 ]}
                 layout={ {width: window.innerWidth * 0.90, height: window.innerHeight * 0.87, title: 'Comandos DDL e DML'} }
