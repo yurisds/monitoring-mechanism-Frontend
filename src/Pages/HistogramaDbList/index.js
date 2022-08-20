@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./style.css"
 import HistogramaDbList from '../../components/HistogramaDbList';
 import ResponsiveAppBar from '../../components/Common/NavBar';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import axios from 'axios';
 import HistogramaDbTypeTextUsed from '../../components/HistogramaDbTypeTextUsed';
 import HistogramaDbTypeNumericUsed from '../../components/HistogramaDbTypeNumericUsed';
@@ -19,15 +19,20 @@ const HistogramaDbListPage = () => {
 
     const [ list, setList ] = useState([]);
 
+    const [ isLoading, setIsLoading ] = useState(true);
+
     useEffect( () => {
         getDbList();
     }, [])
     
     const getDbList = async () => {
 
+        setIsLoading(true);
+
         const response = await api.get("/statistics");
 
         setList(response.data)
+        setIsLoading(false);
     }
 
     const handleButton = (e) => {
@@ -35,6 +40,9 @@ const HistogramaDbListPage = () => {
     }
 
     return (
+
+
+
         <div>
             <ResponsiveAppBar/>
             <div className="site-button-ghost-wrapper">
@@ -55,27 +63,40 @@ const HistogramaDbListPage = () => {
                 </Button>
             </div>
 
-            {button === "commands" ? (
-                <HistogramaDbList key={list} list={list}/>
-            ): (
-                button === "texts" ? (
-                    <HistogramaDbTypeTextUsed key={list} list={list}/>
-                ) : (
-                    button === "numerics" ? (
-                        <HistogramaDbTypeNumericUsed key={list} list={list}/>
-                     ) : (
-                        button === "HoursWorkedAM" ? ( 
-                            <HistogramaDbHoursWorkedAM key={list} list={list}/>
-                            ) : (
-                                <HistogramaDbHoursWorkedPM key={list} list={list}/>
-                            )
-                    )
-                )
-                
-            )}
+            
 
-        </div>
+            {isLoading ? (
+                <div className="example">
+                    <Spin />
+                </div>
+                ) : 
+                (
+                <div>
+
+                    {button === "commands" ? (
+                        <HistogramaDbList key={list} list={list}/>
+                    ): (
+                        button === "texts" ? (
+                            <HistogramaDbTypeTextUsed key={list} list={list}/>
+                        ) : (
+                            button === "numerics" ? (
+                                <HistogramaDbTypeNumericUsed key={list} list={list}/>
+                            ) : (
+                                button === "HoursWorkedAM" ? ( 
+                                    <HistogramaDbHoursWorkedAM key={list} list={list}/>
+                                    ) : (
+                                        <HistogramaDbHoursWorkedPM key={list} list={list}/>
+                                    )
+                            )
+                        )
+                        
+                    )}
+                </div>
+                )}
+            </div>
+
     );
+    
 };
 
 

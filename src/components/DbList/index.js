@@ -359,10 +359,7 @@ const DbList = props => {
     ];
 
     useEffect( () => {
-        setIsLoading(true);
         getBdGradeList();
-        setIsLoading(false);
-
     }, [])
 
 
@@ -406,7 +403,7 @@ const DbList = props => {
     }
 
     const getBdGradeList = async () => {
-
+        setIsLoading(true);
         const [responseGrade, responseBd] = await Promise.all([await api.get(`/grade`), await api.get(`/statistics`)]);
 
         const result = responseBd.data.map((r) => {
@@ -419,6 +416,7 @@ const DbList = props => {
 
         setList(result);
         setGradeList(responseGrade.data);
+        setIsLoading(false);
     }
 
     const onChange = () => {

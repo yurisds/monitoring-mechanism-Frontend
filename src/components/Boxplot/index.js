@@ -12,7 +12,7 @@ const Boxplot = ({dbCommandList, dbNameList, commandsName}) => {
                 { type: 'box', boxpoints: 'all', pointpos: 0, y: dbCommandList, text: dbNameList, name: `QTD ${commandsName}`, gridcolor: 'rgb(255, 255, 255)',},
 
                 ]}
-                layout={ {width: 1000, height: 900, title: `BoxPlot com os comandos de ${commandsName}`} }
+                layout={ {width: 900, height: 900, title: `BoxPlot com os comandos de ${commandsName}`} }
             />
         </div>
     );
