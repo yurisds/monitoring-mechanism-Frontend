@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import axios from 'axios';
-import { Table, Spin,Tabs  } from 'antd';
+import { SendOutlined  } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import { Button, DatePicker, Form, Input, Space } from 'antd';
+import { Table, Spin, Tabs, Button, DatePicker, Form, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
@@ -125,13 +125,13 @@ const DbList = props => {
 
     const columns = [
         {
-          title: 'Nome',
+          title: 'NOME',
           dataIndex: 'userDatabase',
           key: 'userDatabase',
           ...getColumnSearchProps('userDatabase'),
         },
         {
-            title: 'Create',
+            title: 'CREATE TABLE',
             dataIndex: 'create_table',
             key: 'create_table',
             render: (qtt) => {
@@ -145,7 +145,7 @@ const DbList = props => {
             },
         },
         {
-            title: 'Drop',
+            title: 'DROP TABLE',
             dataIndex: 'drop_table',
             key: 'drop_table',
             render: (qtt) => {
@@ -159,7 +159,7 @@ const DbList = props => {
             },
         },
         {
-            title: 'Alter',
+            title: 'ALTER TABLE',
             dataIndex: 'alter_table',
             key: 'alter_table',
             render: (qtt) => {
@@ -173,7 +173,7 @@ const DbList = props => {
             },
         },
         {
-            title: 'Insert',
+            title: 'INSERT',
             dataIndex: 'insert',
             key: 'insert',
             render: (qtt) => {
@@ -187,7 +187,7 @@ const DbList = props => {
             },
         },
         {
-            title: 'Delete',
+            title: 'DELETE',
             dataIndex: 'delete',
             key: 'delete',
             render: (qtt) => {
@@ -201,7 +201,7 @@ const DbList = props => {
             },
         },
         {
-            title: 'Update',
+            title: 'UPDATE',
             dataIndex: 'update',
             key: 'update',
             render: (qtt) => {
@@ -215,7 +215,7 @@ const DbList = props => {
             },
         },
         {
-            title: 'Study Sessions',
+            title: 'Seções de Estudo',
             dataIndex: 'studySessions',
             key: 'studySessions',
             render: (qtt) => {
@@ -238,10 +238,10 @@ const DbList = props => {
             },
         },*/
         {
-            title: 'Action',
+            title: 'Ações',
             dataIndex: '',
             key: 'x',
-            render: (e) => <a onClick={ () => {navigate(`/statistics/${e.db_name}`)}}>Detalhes</a>,
+            render: (e) => <a onClick={ () => {navigate(`/statistics/${e.db_name}`)}}><SendOutlined /></a>,
           },
     ];
 

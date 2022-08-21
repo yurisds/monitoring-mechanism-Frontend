@@ -100,7 +100,7 @@ const CorrelationList = ({list}) => {
 
 
       const layout = {
-        title: 'Person Correlations', 
+        title: 'Correlação com o método de Pearson', 
 
         xaxis: {automargin: true}, 
         yaxis: {automargin: true}, 

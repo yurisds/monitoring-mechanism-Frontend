@@ -56,10 +56,10 @@ const HistogramaDbListPage = () => {
                     Tipos Numéricos
                 </Button>
                 <Button type="primary" style={{marginLeft: "5%"}}  onClick={ () => handleButton("HoursWorkedAM")}>
-                    Trabalhos no Período da Manhã
+                    Uso do Banco no Período da Manhã
                 </Button>
                 <Button type="primary" style={{marginLeft: "5%"}}  onClick={ () => handleButton("HoursWorkedPM")}>
-                    Trabalhos no Período da Noite
+                    Uso do Banco no Período da Noite
                 </Button>
             </div>
 

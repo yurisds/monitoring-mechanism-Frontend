@@ -9,12 +9,12 @@ const DbUserDetails = ({userStatistics}) => {
         <div className="body">
 
             <Card style={{ width: window.innerWidth * 0.24 }}>
-            <p>Quantidade de Criação de Tabelas: {userStatistics.create_table}</p>
-            <p>Quantidade de Remoção de Tabelas: {userStatistics.drop_table}</p>
-            <p>Quantidade de Atualização de Tabelas: {userStatistics.alter_table}</p>
-            <p>Quantidade de Inserção de Dados: {userStatistics.insert}</p>
-            <p>Quantidade de Remoção de Dados: {userStatistics.delete}</p>
-            <p>Quantidade de Atualização de Dados: {userStatistics.update}</p>
+            <p><b>Quantidade de Criação de Tabelas:</b> {userStatistics.create_table}</p>
+            <p><b>Quantidade de Remoção de Tabelas:</b>  {userStatistics.drop_table}</p>
+            <p><b>Quantidade de Atualização de Tabelas:</b>  {userStatistics.alter_table}</p>
+            <p><b>Quantidade de Inserção de Dados:</b>  {userStatistics.insert}</p>
+            <p><b>Quantidade de Remoção de Dados:</b>  {userStatistics.delete}</p>
+            <p><b>Quantidade de Atualização de Dados:</b>  {userStatistics.update}</p>
             </Card>
 
 
