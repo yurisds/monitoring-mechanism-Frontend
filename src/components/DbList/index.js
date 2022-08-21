@@ -354,7 +354,7 @@ const DbList = props => {
             title: 'Action',
             dataIndex: '',
             key: 'x',
-            render: (e) => <a onClick={ () => {navigate(`/statistics/${e.db_name}`)}}>Detalhes</a>,
+            render: (e) => <a onClick={ () => {navigate(`/statistics/${e.db_name}`)}}><SendOutlined /></a>,
           },
     ];
 
