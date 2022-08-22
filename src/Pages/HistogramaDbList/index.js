@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import "./style.css"
 import HistogramaDbList from '../../components/HistogramaDbList';
 import ResponsiveAppBar from '../../components/Common/NavBar';
-import { Button, Spin } from 'antd';
+import { Button, Spin, Form, DatePicker } from 'antd';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import HistogramaDbTypeTextUsed from '../../components/HistogramaDbTypeTextUsed';
 import HistogramaDbTypeNumericUsed from '../../components/HistogramaDbTypeNumericUsed';
 import HistogramaDbHoursWorkedAM from '../../components/HistogramaDbHoursWorkedAM';
@@ -17,19 +18,38 @@ const HistogramaDbListPage = () => {
 
     const [button, setButton ] = useState("commands");
 
+    const [form] = Form.useForm();
+
     const [ list, setList ] = useState([]);
 
     const [ isLoading, setIsLoading ] = useState(true);
 
     useEffect( () => {
-        getDbList();
+        getDbList({});
     }, [])
     
-    const getDbList = async () => {
+    const getDbList = async (values) => {
 
         setIsLoading(true);
 
-        const response = await api.get("/statistics");
+        let response;
+
+        if(!values.date) {
+
+            response = await api.get(`/statistics`);
+
+        } else{
+
+            const startDate = dayjs(values.date[0]).format("YYYY-MM-DDT00:00:00");
+            const endDate = dayjs(values.date[1]).format("YYYY-MM-DDT23:59:59")
+
+            if(startDate && endDate){
+                response = await api.get(`/statistics?initialDate=${startDate}&finalDate=${endDate}`);
+            }else {
+                response = await api.get(`/statistics`);
+            }
+
+        }  
 
         setList(response.data)
         setIsLoading(false);
@@ -61,9 +81,32 @@ const HistogramaDbListPage = () => {
                 <Button type="primary" style={{marginLeft: "5%"}}  onClick={ () => handleButton("HoursWorkedPM")}>
                     Uso do Banco no Período da Noite
                 </Button>
+
+                <div style={{marginTop: '-5%'}}>
+                <Form form={form} layout="vertical" name="form" style={{ marginLeft: "25%", alignItems: "left", display: "flex", flexDirection: "column", width: "100%"}}>
+                    <Form.Item key={"date"} name={"date"}>
+                        <DatePicker.RangePicker
+                        format={"DD/MM/YYYY"}
+                            allowClear={true}
+                            onChange={() => {
+                                form
+                                .validateFields()
+                                .then((values) => {
+                                    getDbList(values);
+                                })
+                                .catch((info) => {
+                                    console.log('Validate Failed:', info);
+                                });
+
+                            }}
+                        />
+                    </Form.Item>
+                </Form>
             </div>
 
-            
+            </div>
+
+
 
             {isLoading ? (
                 <div className="example">
