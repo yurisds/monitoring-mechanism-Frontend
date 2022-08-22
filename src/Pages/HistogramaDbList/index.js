@@ -83,7 +83,7 @@ const HistogramaDbListPage = () => {
                 </Button>
 
                 <div style={{marginTop: '-5%'}}>
-                <Form form={form} layout="vertical" name="form" style={{ marginLeft: "25%", alignItems: "left", display: "flex", flexDirection: "column", width: "100%"}}>
+                <Form form={form} layout="vertical" name="form" style={{ marginLeft: "5%", alignItems: "left", display: "flex", flexDirection: "column", width: "100%"}}>
                     <Form.Item key={"date"} name={"date"}>
                         <DatePicker.RangePicker
                         format={"DD/MM/YYYY"}
